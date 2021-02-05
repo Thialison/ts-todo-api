@@ -22,8 +22,11 @@
   },
   "dependencies": {
     "@types/cors": "^2.8.9",
+    "@types/uuid": "^8.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.11.15"
+    "mongoose": "^5.11.15",
+    "tslog": "^3.1.1",
+    "uuid": "^8.3.2"
   }
 }
