@@ -1,4 +1,10 @@
-import app from './app'
+import App from './app'
+import log from './utils/logger'
 
-app.listen(3333)
-console.log('server running on http://localhost:3333')
+const initializer = async (port = 3333): Promise<void> => {
+  await App.init()
+  App.server.listen(port)
+  log.info(`server running at http://localhost:${port}`)
+}
+
+initializer()

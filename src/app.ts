@@ -1,36 +1,33 @@
 import express from 'express'
 import cors from 'cors'
-import mongoose from 'mongoose'
+import { mongoConnection } from './services/mongo'
+import routers from './routers'
 
 class App {
-  public app: express.Application
+  public server: express.Application
 
   constructor() {
-    this.app = express()
+    this.server = express()
+  }
+
+  public async init(): Promise<void> {
+    await this.databaseSetup()
     this.middlewares()
-    this.database()
     this.routes()
   }
 
   private middlewares(): void {
-    this.app.use(express.json())
-    this.app.use(cors())
+    this.server.use(express.json())
+    this.server.use(cors())
   }
 
-  private database(): void {
-    mongoose.connect('mongodb://localhost/todo-api-db', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
-    const db = mongoose.connection
-    db.on('error', console.error.bind(console, 'connection error:'))
+  public async databaseSetup(): Promise<void> {
+    await mongoConnection()
   }
 
   private routes(): void {
-    this.app.get('/', (req, res) => {
-      return res.send('Hello World')
-    })
+    this.server.use(routers)
   }
 }
 
-export default new App().app
+export default new App()
