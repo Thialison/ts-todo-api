@@ -1,20 +1,22 @@
 import { User } from '../../../entities/User'
-import UserModel from './schemas/UsersSchema'
+import UserModel, { IUserModel } from './schemas/UsersSchema'
 import { IUserRepository } from '../../IUserRepository'
 
 export class MongoUserRepository implements IUserRepository {
-  async findByEmail(email: string): Promise<any> {
+  async findByEmail(email: string): Promise<IUserModel | null> {
     return await UserModel.findOne({ email })
   }
 
   async save(user: User): Promise<void> {
-    const userModel = new UserModel()
+    const { id, email, password, name, age } = user
 
-    userModel._id = user.id
-    userModel.email = user.email
-    userModel.password = user.password
-    userModel.name = user.name
-    userModel.age = user.age
+    const userModel = new UserModel({
+      _id: id,
+      email,
+      password,
+      name,
+      age
+    })
 
     await userModel.save()
   }

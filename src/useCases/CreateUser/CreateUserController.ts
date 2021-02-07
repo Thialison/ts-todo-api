@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { CreateUserUseCase } from './CreateUserUseCase'
+import { makeEncrypt } from '../../utils/encrypt'
 
 export class CreateUserController {
   private createUserUseCase: CreateUserUseCase
@@ -9,15 +10,16 @@ export class CreateUserController {
   }
 
   async handle(resquest: Request, response: Response): Promise<Response> {
-    const { email, password } = resquest.body
+    let { email, password } = resquest.body
+
+    password = await makeEncrypt(password)
 
     try {
       await this.createUserUseCase.execute({
         email,
         password
       })
-
-      return response.status(201).send('User Created')
+      return response.status(201).json({ sucess: 'User Created' })
     } catch (err) {
       return response.status(400).json({
         message: err.message || 'Unexpected error.'
