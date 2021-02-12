@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
-import { mongoConnection } from './services/mongo'
-import routers from './routers'
+import { mongoConnection, mongoCloseConnection } from './services/mongo'
+import userRouter from '@routes/userRoutes'
 
 class App {
   public server: express.Application
@@ -10,7 +10,7 @@ class App {
     this.server = express()
   }
 
-  public async init(): Promise<void> {
+  async init(): Promise<void> {
     await this.databaseSetup()
     this.middlewares()
     this.routes()
@@ -21,13 +21,17 @@ class App {
     this.server.use(cors())
   }
 
-  public async databaseSetup(): Promise<void> {
+  async databaseSetup(): Promise<void> {
     await mongoConnection()
   }
 
+  async databaseClose(): Promise<void> {
+    await mongoCloseConnection()
+  }
+
   private routes(): void {
-    this.server.use(routers)
+    this.server.use(userRouter)
   }
 }
 
-export default new App()
+export default App
