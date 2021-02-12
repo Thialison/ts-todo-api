@@ -1,10 +1,13 @@
 import App from './app'
-import log from './utils/logger'
+import log from '@utils/logger'
 
-const initializer = async (port = 3333): Promise<void> => {
-  await App.init()
-  App.server.listen(port)
+export async function serverUp(port?: number): Promise<void> {
+  const app = new App()
+  await app.init()
+  app.server.listen(port)
   log.info(`server running at http://localhost:${port}`)
 }
 
-initializer()
+serverUp(3333).catch(err => {
+  throw err
+})

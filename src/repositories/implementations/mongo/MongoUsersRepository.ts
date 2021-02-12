@@ -1,6 +1,6 @@
-import { User } from '../../../entities/User'
-import UserModel, { IUserModel } from './schemas/UsersSchema'
-import { IUserRepository } from '../../IUserRepository'
+import { User } from '@entities/User'
+import UserModel, { IUserModel } from '@schemas/UsersSchema'
+import { IUserRepository } from '@repositories/IUserRepository'
 
 export class MongoUserRepository implements IUserRepository {
   async findByEmail(email: string): Promise<IUserModel | null> {

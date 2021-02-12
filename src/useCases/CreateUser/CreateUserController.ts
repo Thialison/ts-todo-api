@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { CreateUserUseCase } from './CreateUserUseCase'
-import { makeEncrypt } from '../../utils/encrypt'
+import { makeEncrypt } from '@utils/encrypt'
 
 export class CreateUserController {
   private createUserUseCase: CreateUserUseCase
