@@ -21,6 +21,11 @@ Suba o container do mongoDB
 docker-compose up -d
 ```
 
+Execute os testes 
+```
+yarn test
+```
+
 Inicie a aplicação
 ```
 yarn dev
